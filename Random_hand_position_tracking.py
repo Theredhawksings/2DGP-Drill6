@@ -3,7 +3,7 @@ from operator import truediv
 from pico2d import *
 import random
 
-open_canvas()
+open_canvas(1024, 768)
 ground = load_image('TUK_GROUND.png')
 character = load_image('run_animation.png')
 hand = load_image('hand_arrow.png')
@@ -13,8 +13,8 @@ hy = 0
 
 def handupdate():
     global hx, hy
-    hx = random.randrange(100, 700)
-    hy = random.randrange(100, 500)
+    hx = random.randrange(100, 924)
+    hy = random.randrange(100, 668)
 
 
 def handle_events():
@@ -25,15 +25,35 @@ def handle_events():
         if event.type == SDL_QUIT:
             running = False
 
-x=400
-y=300
+def chracter_move():
+    global x,y,frame
+
+    clear_canvas()
+    ground.draw(640, 512)
+    hand.clip_draw(0, 0, 50, 52, hx, hy, 100, 104)
+    y = a * x + b
+
+    if (x >= hx):
+        character.clip_draw(frame * 64, 128, 64, 64, x, y, 128, 128)
+    elif (x < hx):
+        character.clip_draw(frame * 64, 64, 64, 64, x, y, 128, 128)
+
+    update_canvas()
+    frame = (frame + 1) % 4
+    delay(0.0001)
+
+
+
+
+x=1024
+y=768
 frame = 0
 running = True
 
 while running:
 
     clear_canvas()
-    ground.draw(400, 300)
+    ground.draw(512, 384)
 
     handupdate()
 
@@ -42,25 +62,12 @@ while running:
 
     if (x >= hx):
         for x in range(x, hx + 1, -1):
-            clear_canvas()
-            ground.draw(400, 300)
-            hand.clip_draw(0, 0, 50, 52, hx, hy, 100, 104)
-            y = a * x + b
-            character.clip_draw(frame * 64, 128, 64, 64, x, y, 128, 128)
-            update_canvas()
-            frame = (frame + 1) % 4
-            delay(0.01)
+            chracter_move()
+            handle_events()
 
     elif (x < hx):
         for x in range(x, hx + 1, 1):
-            clear_canvas()
-            ground.draw(400, 300)
-            hand.clip_draw(0, 0, 50, 52, hx, hy, 100, 104)
-            y = a * x + b
-            character.clip_draw(frame * 64, 64, 64, 64, x, y, 128, 128)
-            update_canvas()
-            frame = (frame + 1) % 4
-            delay(0.01)
+            chracter_move()
+            handle_events()
 
-    handle_events()
     delay(0.1)
