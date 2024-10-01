@@ -26,10 +26,10 @@ def handle_events():
             running = False
 
 def chracter_move():
-    global x,y,frame,a,b
+    global y,frame
 
     clear_canvas()
-    ground.draw(640, 512)
+    ground.draw(512, 384)
     hand.clip_draw(0, 0, 50, 52, hx, hy, 100, 104)
     y = a * x + b
 
@@ -40,7 +40,7 @@ def chracter_move():
 
     update_canvas()
     frame = (frame + 1) % 4
-    delay(0.0001)
+    delay(0.001)
 
 x=512
 y=384
@@ -49,16 +49,13 @@ running = True
 
 while running:
 
-    clear_canvas()
-    ground.draw(512, 384)
-
     handupdate()
 
     a = (hy - y) / (hx - x)
     b = y - x * a
 
     if (x >= hx):
-        for x in range(x, hx + 1, -1):
+        for x in range(x, hx - 1, -1):
             chracter_move()
             handle_events()
 
