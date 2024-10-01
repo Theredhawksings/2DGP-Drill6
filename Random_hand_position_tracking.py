@@ -26,7 +26,7 @@ def handle_events():
             running = False
 
 def chracter_move():
-    global x,y,frame
+    global x,y,frame,a,b
 
     clear_canvas()
     ground.draw(640, 512)
@@ -42,11 +42,8 @@ def chracter_move():
     frame = (frame + 1) % 4
     delay(0.0001)
 
-
-
-
-x=1024
-y=768
+x=512
+y=384
 frame = 0
 running = True
 
